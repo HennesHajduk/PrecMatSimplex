@@ -15,7 +15,7 @@ CTilde = zeros(N,N,dim);  % initialization
 i2Alpha = mapI2Alpha(p);  % array mapping local indices to multiindices
 volRefSimplex = 1 / factorial(dim); % |\hat K|
 M_L = volRefSimplex / N;  % diagonal entries of lumped mass matrix \hat M_L
-gradBaryCoord = [-ones(1,dim); eye(dim)]; % gradients of \hat \lambda_i
+gradBary = [-ones(1,dim); eye(dim)]; % gradients of barycentric coordinates
 for m = 1:dim             % compute \tilde{ \hat C}_m
   for j = 1:N             % compute (\tilde{ \hat C}_m)_{:,j}
     alpha = i2Alpha(j,:); % multiindex for j-th local index
@@ -28,7 +28,7 @@ for m = 1:dim             % compute \tilde{ \hat C}_m
           continue;
         end
         i = getIfromAlpha(p,beta); % local index corresponding to beta
-        CTilde(i,j,m) = CTilde(i,j,m) + gradBaryCoord(k,m) ...     % cf.
+        CTilde(i,j,m) = CTilde(i,j,m) + gradBary(k,m) ... % cf. {MCL-DG}
                                         * (alpha(l) - (l==k) + 1); % (B.1)
       end
     end
