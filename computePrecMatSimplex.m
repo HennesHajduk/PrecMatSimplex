@@ -10,15 +10,15 @@
 % href TODO
 %
 function CTilde = computePrecMatSimplex(dim, p)
-N = nchoosek(p+dim,p);    % number of local degrees of freedom
+N = nchoosek(p+dim,p);    % amount of local DOF
 CTilde = zeros(N,N,dim);  % initialization
 i2Alpha = mapI2Alpha(p);  % array mapping local indices to multiindices
 volRefSimplex = 1 / factorial(dim); % |\hat K|
 M_L = volRefSimplex / N;  % diagonal entries of lumped mass matrix \hat M_L
 gradBary = [-ones(1,dim); eye(dim)]; % gradients of barycentric coordinates
-for m = 1:dim             % compute \tilde{ \hat C}_m
-  for j = 1:N             % compute (\tilde{ \hat C}_m)_{:,j}
-    alpha = i2Alpha(j,:); % multiindex for j-th local index
+for m = 1:dim             % calc. \tilde{ \hat C}_m
+  for j = 1:N             % calc. (\tilde{ \hat C}_m)_{:,j}
+    alpha = i2Alpha(j,:); % multiindex for jth local index
     for k = 1:dim+1
       for l = 1:dim+1
         beta = alpha;
@@ -27,12 +27,12 @@ for m = 1:dim             % compute \tilde{ \hat C}_m
         if (beta(l) > p || beta(k) < 0)
           continue;
         end
-        i = getIfromAlpha(p,beta); % local index corresponding to beta
-        CTilde(i,j,m) = CTilde(i,j,m) + gradBary(k,m) ... % cf. {MCL-DG}
-                                        * (alpha(l) - (l==k) + 1); % (B.1)
+        i = getIfromAlpha(p,beta); % local index for beta
+        CTilde(i,j,m) = CTilde(i,j,m) ...   % cf. % (B.1)
+            + gradBary(k,m)  * (alpha(l) - (l==k) + 1);
       end
     end
   end
 end
-CTilde = M_L * CTilde; % multiplication with lumped mass matrix
+CTilde = M_L * CTilde; % multiply with lumped mass matrix
 end
