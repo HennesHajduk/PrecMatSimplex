@@ -5,9 +5,9 @@
 % the reference simplex and \hat C_k = 
 % \int_{\hat K} \hat\phi_i \frac{\partial\hat\phi_j}{\partial \hat x_k} dx.
 %
-% See also MCL-DG: H. Hajduk 2020, Monolithic convex limiting in 
-% discontinuous Galerkin discretizations of hyperbolic conservation laws
-% href TODO
+% See also H. Hajduk (2021) Monolithic convex limiting in 
+% discontinuous Galerkin discretizations of hyperbolic conservation laws 
+% Comput. Math. Appl. 87: 120--138 DOI: 10.1016/j.camwa.2021.02.012
 %
 function CTilde = computePrecMatSimplex(dim, p)
 N = nchoosek(p+dim,p);    % amount of local DOF
