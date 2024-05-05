@@ -1,7 +1,6 @@
 function C = computeSkewDiscreteGradientPrism(pTri, p1D)
 n1D = p1D + 1;
 nTri = nchoosek(pTri+2,pTri);
-N = n1D * nTri;
 C = cell(1,3);
 cTri = computeSkewDiscreteGradientSimplex(2, pTri);
 C{1} = kron(speye(n1D), cTri{1}) / n1D;

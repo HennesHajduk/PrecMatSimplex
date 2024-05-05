@@ -12,9 +12,8 @@ t = s / dim;
 for i = 1:N
   ai = alpha(i,:);
   if ai(1) > 0
-    aj = ones(dim,1) * ai + [-ones(dim,1), eye(dim)];
     for k = 1:dim
-      j = getNodeFromMultiindex(dim, p, aj(k,:));
+      j = getNodeFromMultiindex(dim, p, ai + [-1, k == (1:dim)]);
       for l = 1:dim
         C{l}(i,j) = t;
       end
