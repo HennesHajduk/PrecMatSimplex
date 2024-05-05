@@ -33,7 +33,7 @@ end
 fprintf('Anisotropic tensor-product element tests ran without failures.\n');
 %% Isotropic simplices (anisotropy not allowed for Bernstein elements on simplices)
 %% An additional test is performed within the called routine
-for dim = 1:3 % if dim == 3, computation requires signifcant time for high polynomial degrees
+for dim = 1:3
   for p = 1:31
     C1 = computePrecMatSimplex(dim, p);
     C2 = computeSkewDiscreteGradientSimplex(dim, p);

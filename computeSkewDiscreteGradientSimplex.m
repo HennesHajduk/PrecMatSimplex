@@ -5,7 +5,9 @@ alpha = getMultiindices(dim,p);
 s = 0.5;
 for k = 1:dim-1
   s = s / (p+k);
+  C{k} = sparse(N,N);
 end
+C{end} = sparse(N,N);
 t = s / dim;
 for i = 1:N
   ai = alpha(i,:);
