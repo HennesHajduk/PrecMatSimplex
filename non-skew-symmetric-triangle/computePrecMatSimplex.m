@@ -10,16 +10,15 @@
 % Comput. Math. Appl. 87: 120--138 DOI: 10.1016/j.camwa.2021.02.012
 %
 function CTilde = computePrecMatSimplex(dim, p)
-N = nchoosek(p+dim,p);
-CTilde = cell(1,dim);
-multiindices = getMultiindices(dim,p);
-volRefSimplex = 1 / factorial(dim);
-M_L = volRefSimplex / N;
-gradBary = [-ones(1,dim); eye(dim)];
-for m = 1:dim
-  CTilde{m} = sparse(N,N);
-  for j = 1:N
-    alpha = multiindices(j,:);
+N = nchoosek(p+dim,p);    % amount of local DOF
+CTilde = zeros(N,N,dim);  % initialization
+i2Alpha = mapI2Alpha(p);  % array mapping local indices to multiindices
+volRefSimplex = 1 / factorial(dim); % |\hat K|
+M_L = volRefSimplex / N;  % diagonal entries of lumped mass matrix \hat M_L
+gradBary = [-ones(1,dim); eye(dim)]; % gradients of barycentric coordinates
+for m = 1:dim             % calc. \tilde{ \hat C}_m
+  for j = 1:N             % calc. (\tilde{ \hat C}_m)_{:,j}
+    alpha = i2Alpha(j,:); % multiindex for jth local index
     for k = 1:dim+1
       for l = 1:dim+1
         beta = alpha;
@@ -28,11 +27,12 @@ for m = 1:dim
         if (beta(l) > p || beta(k) < 0)
           continue;
         end
-        i = getNodeFromMultiindex(dim, p, beta);
-        CTilde{m}(i,j) = CTilde{m}(i,j) + gradBary(k,m)  * (alpha(l) - (l==k) + 1);
+        i = getIfromAlpha(p,beta); % local index for beta
+        CTilde(i,j,m) = CTilde(i,j,m) ...   % cf. % (B.1)
+            + gradBary(k,m)  * (alpha(l) - (l==k) + 1);
       end
     end
   end
-  CTilde{m} = M_L * CTilde{m};
 end
+CTilde = M_L * CTilde; % multiply with lumped mass matrix
 end
