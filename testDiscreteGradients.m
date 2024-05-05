@@ -37,6 +37,10 @@ for dim = 1:3
   for p = 1:31
     C1 = computePrecMatSimplex(dim, p);
     C2 = computeSkewDiscreteGradientSimplex(dim, p);
+    if dim == 1
+      C3 = computeSkewDiscreteGradientBox(1, p);
+      assert(isequal(C2{1}, C3{1}), 'Matrices on boxes and simplices must be the same in 1D.');
+    end
     str = [' on simplex element for p = ' num2str(p) ', dim = ' num2str(dim)];
     runTests(C1, C2, str);
   end
