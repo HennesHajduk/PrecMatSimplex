@@ -28,12 +28,10 @@ for i = 1:N
       j = getNodeFromMultiindex(dim, p, ai - [-1, k == (1:dim)]);
       for l = 1:dim
         C{l}(i,j) = -t;
-      end
-      for l = 1:dim
         if l == k, continue; end
-        j = getNodeFromMultiindex(dim, p, ai + [0, l == (1:dim)] - [0, k == (1:dim)]);
-        C{k}(i,j) = -t;
-        C{l}(i,j) = t;
+        m = getNodeFromMultiindex(dim, p, ai + [0, l == (1:dim)] - [0, k == (1:dim)]);
+        C{k}(i,m) = -t;
+        C{l}(i,m) = t;
       end
     else
       C{k}(i,i) = C{k}(i,i) - s;
